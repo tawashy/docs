@@ -1,33 +1,30 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: Introduction
+description: Overview of the Riyadh Parking API and its key functionalities.
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Introduction
 
-## Welcome
+Welcome to the **Riyadh Parking API** documentation. This API allows operators to manage parking zones, track availability, issue tickets, enforce violations, and process payments seamlessly.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+### **What You Can Do with This API**
+- **Manage Parking Zones**: Create and configure parking zones with real-time availability updates.
+- **Handle Ticketing & Payments**: Generate tickets, validate sessions, and synchronize transactions.
+- **Enforce Regulations**: Report and track parking violations using enforcement tools.
+- **Monitor & Analyze Data**: Retrieve reports and gain insights into parking operations.
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+### **Who Can Use This API?**
+This API is designed for **authorized parking operators** and **municipal authorities** managing parking spaces in Riyadh. To use the API, operators must be **registered and approved**.
 
-## Authentication
+### **Getting Started**
+To start integrating with the Riyadh Parking API:
+1. **Register as an Operator** via the Operator Dashboard.
+2. **Obtain API Credentials** (API Key or OAuth 2.0 Token).
+3. **Test API Calls** in the sandbox environment.
+4. **Go Live** after completing all integration checks.
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+Refer to the [Quickstart Guide](/quickstart) for a step-by-step onboarding process.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+---
+
+Ready to explore the API? Head over to the [API Reference](/api-reference) for detailed endpoint documentation.
