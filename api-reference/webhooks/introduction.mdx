@@ -1,0 +1,63 @@
+---
+title: Webhooks
+description: Learn how to use webhooks to receive real-time updates from the Riyadh Parking API.
+---
+
+import Callout from '@mintlify/components/callout';
+
+# Webhooks
+
+Webhooks allow operators to **receive real-time notifications** whenever certain events occur within the Riyadh Parking system. Instead of constantly polling the API for updates, webhooks provide an efficient way to stay informed about critical changes.
+
+<Info>
+Webhooks enable **event-driven automation**, allowing your system to respond instantly to parking-related updates.
+</Info>
+
+## How Webhooks Work
+
+1. **Subscribe to Webhooks**: Once onboarded, operators can access the **Operator Portal** to configure webhook subscriptions.
+2. **Receive Event Notifications**: When an event occurs (e.g., a new violation, ticket validation, or site capacity update), a `POST` request is sent to your webhook endpoint.
+3. **Process the Webhook Data**: Your system should verify and process the incoming event payload to trigger appropriate actions.
+
+## Expected Webhook Behavior
+
+- **Delivery Format**: Webhooks are sent as `POST` requests with JSON payloads.
+- **Security**: Webhook payloads are signed to ensure authenticity.
+- **Retries**: If a webhook delivery fails, the system will retry multiple times before marking it as failed.
+- **Event Types**: Available webhook events can be explored via the **Operator Portal** after service activation.
+
+## Handling Webhooks
+
+To process incoming webhooks:
+1. **Expose an HTTPS endpoint** that can accept `POST` requests.
+2. **Verify the webhook signature** to ensure authenticity.
+3. **Acknowledge the request with a `200 OK`** response to prevent unnecessary retries.
+
+### Example Webhook Payload
+```json
+{
+  "event": "ticket.issued",
+  "data": {
+    "ticketId": "12345",
+    "plateNumber": "ABC123",
+    "zoneId": "zone-001",
+    "issuedAt": "2025-03-09T12:00:00Z"
+  }
+}
+```
+
+## Best Practices
+
+- **Verify webhook signatures** before processing events to prevent unauthorized requests.
+- **Use idempotency** when handling webhooks to avoid duplicate processing.
+- **Log webhook events** for debugging and monitoring purposes.
+- **Ensure high availability** of your webhook endpoint to receive updates reliably.
+
+## Next Steps
+- Set up webhook subscriptions in the **Operator Portal**.
+- Implement webhook handling logic in your backend.
+- Review **[Security Best Practices](../../development/security.mdx)** to secure your integration.
+
+---
+
+**Next:** Explore Webhook Event Types in the **Operator Portal**.
