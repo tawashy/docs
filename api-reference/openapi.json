@@ -77,6 +77,76 @@
   },
   "components": {
     "schemas": {
+      "ViolationCreationModel": {
+        "type": "object",
+        "required": [
+          "zoneId",
+          "plateNumber",
+          "plateType",
+          "violationType",
+          "violationLocation",
+          "latitude",
+          "longitude"
+        ],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "zoneId": { "type": "string", "format": "uuid" },
+          "plateNumber": { "type": "string" },
+          "plateType": { "type": "string" },
+          "violationDate": { "type": "string", "format": "date-time" },
+          "violationLocation": { "type": "string", "maxLength": 2000 },
+          "latitude": { "type": "number", "format": "double" },
+          "longitude": { "type": "number", "format": "double" },
+          "violationEmpCode": { "type": "string" },
+          "insertedUser": { "type": "string" },
+          "imageDescription": { "type": "string" },
+          "image": { "type": "string", "format": "binary" },
+          "violationStatus": {
+            "type": "string",
+            "enum": [
+              "INITIATED",
+              "RM_NATIONAL_ID",
+              "RM_WARNING_SMS",
+              "RM_VIOLATION",
+              "RM_IMAGE",
+              "RM_BILL",
+              "COMPLETED"
+            ]
+          },
+          "violationType": {
+            "type": "string",
+            "enum": [
+              "NO_TICKET",
+              "TICKET_ENDED",
+              "USER_EXCEED_PARKING_TIME",
+              "WRONG_PARKING",
+              "RESERVED_PARKING",
+              "OBS_CLS_PARKING",
+              "EMRG_PARKING",
+              "ENT_EXT_PARKING",
+              "PROH_PARKING"
+            ]
+          },
+          "isSaudi": { "type": "boolean" }
+        }
+      },
+      "BaseResponseViolationCreationResponseModel": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "integer", "format": "int32" },
+          "message": { "type": "string" },
+          "data": {
+            "$ref": "#/components/schemas/ViolationCreationResponseModel"
+          }
+        }
+      },
+      "ViolationCreationResponseModel": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "canTow": { "type": "boolean" }
+        }
+      },
       "PublicTicketRequestModel": {
         "type": "object",
         "required": [
