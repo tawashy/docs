@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1", 
+  "openapi": "3.0.1",
   "info": { "title": "Remat Application", "version": "v1" },
   "servers": [{ "url": "/spsr-api", "description": "Default Server URL" }],
   "security": [{ "Authorization": [] }],
