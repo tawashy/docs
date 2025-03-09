@@ -1,0 +1,73 @@
+---
+title: Generate API Token
+description: Learn how to obtain an access token to authenticate with the Riyadh Parking API.
+---
+
+import ApiPlayground from '@mintlify/components/api-playground';
+import Callout from '@mintlify/components/callout';
+
+# Generate API Token
+
+To interact with the **Riyadh Parking API**, you must first obtain an **access token** using your `Client ID` and `Client Secret`. This token is required for all subsequent API requests.
+
+<Callout type="info">
+  Access tokens **expire** after a set period. Ensure you implement **token refreshing** to maintain uninterrupted access.
+</Callout>
+
+## 1️⃣ Request an Access Token
+
+Use the following API request to **obtain an access token**:
+
+<ApiPlayground
+  method="POST"
+  url="https://api.riyadhparking.com/auth/public/token"
+  headers={{
+  "X-Client-Id": "your-client-id",
+  "X-Client-Secret": "your-client-secret",
+  "Content-Type": "application/json"
+}}
+/>
+
+### Expected Response
+
+```json
+{
+  "code": 200,
+  "message": "Successful operation",
+  "data": {
+    "token": "your_generated_token"
+  }
+}
+```
+
+## 2️⃣ Using the Token in API Requests
+
+Once you obtain an access token, include it in the `Authorization` header of **all API requests**.
+
+<ApiPlayground
+  method="GET"
+  url="https://api.riyadhparking.com/sites/public/site-capacity"
+  headers={{
+  "Authorization": "Bearer your_generated_token"
+}}
+/>
+
+## 3️⃣ Handling Token Expiry
+
+Tokens **expire** after a defined duration. If you receive a `401 Unauthorized` response, refresh the token using the **Refresh Token API**.
+
+<Callout type="warning">
+  Failing to refresh tokens will result in authentication failures, causing API requests to be rejected.
+</Callout>
+
+## Next Steps
+
+* Learn about [Refreshing Tokens](./refresh.mdx).
+
+* Explore [Authentication Best Practices](../../development/security.mdx).
+
+* Check the [Full API Reference](../introduction.mdx).
+
+***
+
+🔜 **Next:** [Refreshing Tokens](./refresh.mdx)

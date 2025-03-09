@@ -1,0 +1,117 @@
+---
+title: Best Practices
+description: Recommended best practices for integrating and maintaining the Riyadh Parking API.
+---
+
+import Tabs from '@mintlify/components/tabs';
+import Tab from '@mintlify/components/tab';
+import Callout from '@mintlify/components/callout';
+import CodeBlock from '@mintlify/components/codeblock';
+
+# Best Practices
+
+To ensure a **smooth and secure** integration with the **Riyadh Parking API**, follow these **best practices** for authentication, request handling, and error management.
+
+<Info>
+  Following these best practices will help you build a **reliable, scalable, and secure** integration.
+</Info>
+
+## 1️⃣ Authentication & Security
+
+<Tabs>
+  <Tab title="Do">
+    * ✅ Use **environment variables** to store API credentials (`Client ID`, `Client Secret`, `Access Tokens`).
+
+    * ✅ Secure **API tokens** and refresh them periodically.
+
+    * ✅ Implement **token expiry handling** to prevent authentication failures.
+
+    * ✅ Always use **HTTPS** to encrypt communication.
+  </Tab>
+
+  <Tab title="Don't">
+    * ❌ Hardcode credentials in your source code.
+
+    * ❌ Expose API keys in client-side applications.
+
+    * ❌ Use outdated access tokens without checking for expiration.
+
+    * ❌ Send API requests over HTTP instead of HTTPS.
+  </Tab>
+</Tabs>
+
+## 2️⃣ Efficient API Request Handling
+
+**Optimize API calls to improve performance and reduce overhead.**
+
+<Tip>
+  Use caching strategies to store frequently accessed data like site capacities instead of making repeated API calls.
+</Tip>
+
+* 🟢 **Batch requests** where possible to reduce network load.
+
+* 🟢 **Respect API rate limits** to avoid being throttled.
+
+* 🟢 **Use pagination** when retrieving large datasets.
+
+## 3️⃣ Error Handling & Logging
+
+<Tabs>
+  <Tab title="Good Example">
+    **Handle API responses properly by checking status codes:**
+
+    ```javascript
+    if (response.status === 200) {
+      console.log("Success!", response.data);
+    } else if (response.status === 400) {
+      console.error("Client Error: Check request parameters.");
+    } else {
+      console.error("Server Error: Try again later.");
+    }
+    ```
+  </Tab>
+
+  <Tab title="Bad Example">
+    **Ignoring error handling can break your integration:**
+
+    ```javascript
+    console.log(response.data); // What if response fails?
+    ```
+  </Tab>
+</Tabs>
+
+## 4️⃣ Data Consistency & Validation
+
+**Ensure that all request parameters meet API requirements.**
+
+* ✅ **Validate input data** before sending requests.
+
+* ✅ **Monitor data synchronization** between your system and the API.
+
+* ✅ **Handle concurrent updates** to prevent overwriting important data.
+
+<Warning>
+  Ignoring validation can lead to unexpected errors or data corruption.
+</Warning>
+
+## 5️⃣ Scalability & Performance
+
+**Build a system that can handle increasing traffic and data loads efficiently.**
+
+* 🚀 **Use asynchronous processing** for long-running operations like ticket validation.
+
+* 🚀 **Perform load testing** to simulate real-world API usage.
+
+* 🚀 **Implement retry logic** to gracefully handle API downtime.
+
+## Next Steps
+
+* Learn about [Security Best Practices](./security.mdx) for additional protection.
+
+* Check [Rate Limiting Guidelines](./rate-limiting.mdx) to optimize API usage.
+
+* Dive into the [API Reference](../api-reference/introduction.mdx) to explore endpoint capabilities.
+
+***
+
+🔜 **Next:** [Security Best Practices](./security.mdx)

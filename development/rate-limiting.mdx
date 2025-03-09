@@ -1,0 +1,94 @@
+---
+title: Rate Limiting
+description: Learn how to manage API rate limits efficiently to prevent abuse and ensure fair usage.
+---
+
+# Rate Limiting
+
+To ensure **fair API usage** and **protect system performance**, the Riyadh Parking API enforces rate limits. Understanding and managing these limits is essential for maintaining a **stable and reliable** integration.
+
+<Info>
+  Rate limits help prevent excessive API requests, ensuring a fair distribution of resources among users.
+</Info>
+
+## 1️⃣ Understanding Rate Limits
+
+The API applies different rate limits depending on the **endpoint** and **user role**:
+
+| Request Type      | Limit (Requests per Minute) |
+| ----------------- | --------------------------- |
+| Authentication    | 10                          |
+| Site Management   | 30                          |
+| Visitor Permits   | 50                          |
+| Violations        | 20                          |
+| Ticket Validation | 40                          |
+
+If an application exceeds these limits, the API will return an **HTTP 429 Too Many Requests** response.
+
+## 2️⃣ Handling Rate Limits
+
+### **Check Remaining Request Quota**
+
+Every API response contains headers indicating the current usage:
+
+```bash
+X-RateLimit-Limit: 50   # Total requests allowed per minute
+X-RateLimit-Remaining: 10  # Remaining requests in the current window
+X-RateLimit-Reset: 1672531200  # Time (UNIX) when the limit resets
+```
+
+### **Handling 429 Errors Gracefully**
+
+<Tabs>
+  <Tab title="Good Example">
+    ✅ **Implement retry logic with exponential backoff:**
+
+    ```javascript
+    function fetchWithRetry(url, retries = 3, delay = 1000) {
+      return fetch(url).then(response => {
+        if (response.status === 429 && retries > 0) {
+          const retryAfter = response.headers.get("Retry-After") || delay;
+          return new Promise(resolve => 
+            setTimeout(() => resolve(fetchWithRetry(url, retries - 1, delay * 2)), retryAfter * 1000)
+          );
+        }
+        return response.json();
+      });
+    }
+    ```
+  </Tab>
+
+  <Tab title="Bad Example">
+    ❌ **Making continuous requests without handling rate limits:**
+
+    ```javascript
+    for (let i = 0; i < 100; i++) {
+      fetch("https://api.riyadhparking.com/tickets/public/active-ticket");
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## 3️⃣ Best Practices for Rate Limit Optimization
+
+* ✅ **Cache API responses**: Reduce redundant requests by storing frequently accessed data.
+
+* ✅ **Use pagination**: When retrieving large datasets, request smaller chunks at a time.
+
+* ✅ **Distribute requests**: Spread API calls across different time intervals instead of sending them all at once.
+
+<Tip>
+  For high-traffic applications, consider contacting support for **custom rate limit adjustments**.
+</Tip>
+
+## Next Steps
+
+* Learn about [Best Practices](./best-practices.mdx) for improving API efficiency.
+
+* Explore [Security Guidelines](./security.mdx) to prevent unauthorized API usage.
+
+* Check the [API Reference](../api-reference/introduction.mdx) for more details.
+
+***
+
+🔜 **Next:** [Best Practices](./best-practices.mdx)

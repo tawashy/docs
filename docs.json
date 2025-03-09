@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Riyadh Parking - Operator Documentations",
+  "name": "Riyadh Parking - Operator Documentation",
   "colors": {
     "primary": "#A98900",
     "light": "#A98900",
@@ -14,41 +14,70 @@
         "tab": "Guides",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "Getting Started",
             "pages": [
               "introduction",
               "quickstart",
-              "development"
+              "authentication"
             ]
           },
           {
-            "group": "Essentials",
+            "group": "Developer Essentials",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "development/best-practices",
+              "development/security",
+              "development/rate-limiting"
             ]
           }
         ]
       },
       {
+      "tab": "API Reference v2",
+      "groups": [
+        {
+          "group": "Endpoints",
+          "openapi": {
+            "source": "opena-pi.json",
+            "directory": "api-reference"
+          }
+        }
+      ]
+    },
+      {
         "tab": "API Reference",
         "groups": [
           {
-            "group": "API Documentation",
+            "group": "Authentication",
             "pages": [
-              "api-reference/introduction"
+              "api-reference/authentication/token",
+              "api-reference/authentication/refresh"
             ]
           },
           {
-            "group": "Endpoint Examples",
+            "group": "Parking Management",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete"
+              "api-reference/parking/sites",
+              "api-reference/parking/update-capacity"
+            ]
+          },
+          {
+            "group": "Visitor Permits",
+            "pages": [
+              "api-reference/visitor-permits/check-active-permit"
+            ]
+          },
+          {
+            "group": "Violations",
+            "pages": [
+              "api-reference/violations/create",
+              "api-reference/violations/towed-location"
+            ]
+          },
+          {
+            "group": "Tickets",
+            "pages": [
+              "api-reference/tickets/check-active-ticket",
+              "api-reference/tickets/request-ticket"
             ]
           }
         ]
@@ -82,20 +111,20 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "href": "mailto:support@riyadhparking.com"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://dashboard.riyadhparking.com"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
+      "x": "https://x.com/riyadhparking",
+      "github": "https://github.com/riyadhparking",
+      "linkedin": "https://linkedin.com/company/riyadhparking"
     }
   }
 }

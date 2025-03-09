@@ -1,0 +1,133 @@
+---
+title: Security Best Practices
+description: Learn how to secure your integration with the Riyadh Parking API.
+---
+
+import Callout from '@mintlify/components/callout';
+import CodeBlock from '@mintlify/components/codeblock';
+import Tabs from '@mintlify/components/tabs';
+import Tab from '@mintlify/components/tab';
+
+# Security Best Practices
+
+Ensuring **security** when integrating with the **Riyadh Parking API** is crucial to protect sensitive data and prevent unauthorized access. Follow these **best practices** to safeguard your system.
+
+<Warning>
+  **Security is a shared responsibility.** Implementing these best practices will help protect your integration from potential vulnerabilities.
+</Warning>
+
+## 1️⃣ Secure API Credentials
+
+* 🔒 **Use environment variables** to store sensitive credentials (`Client ID`, `Client Secret`).
+
+* 🔒 **Restrict access** to API keys by implementing role-based access control (RBAC).
+
+* 🔒 **Rotate API keys** regularly to minimize the risk of exposure.
+
+<Tabs>
+  <Tab title="Good Example">
+    **Storing credentials securely in a `.env` file:**
+
+    ```bash
+      CLIENT_ID=your-client-id
+      CLIENT_SECRET=your-client-secret
+    ```
+  </Tab>
+
+  <Tab title="Bad Example">
+    **Hardcoding credentials in the codebase:**
+
+    ```javascript
+      const CLIENT_ID = "your-client-id";
+      const CLIENT_SECRET = "your-client-secret";
+    ```
+  </Tab>
+</Tabs>
+
+## 2️⃣ Enforce HTTPS for All Requests
+
+Ensure all API requests use **HTTPS** to encrypt communication and protect against **man-in-the-middle (MITM) attacks**.
+
+<Tabs>
+  <Tab title="Secure">
+    ✅ **Use HTTPS:**
+
+    ```bash
+      curl -X GET "https://{riyadh-parking-api}/sites/public/site-capacity"
+    ```
+  </Tab>
+
+  <Tab title="Insecure">
+    ❌ **Never use HTTP:**
+
+    ```bash
+      curl -X GET "http://{riyadh-parking-api}/sites/public/site-capacity"
+    ```
+  </Tab>
+</Tabs>
+
+## 3️⃣ Implement Token Expiry Handling
+
+Access tokens **expire** after a set duration. Always implement logic to refresh tokens before they expire.
+
+**Recommended Flow:**
+
+1. **Store token expiration timestamp** when receiving an access token.
+
+2. **Refresh the token** when it's about to expire.
+
+3. **Retry failed requests** due to expired tokens.
+
+<Info>
+  Use the **Refresh Token API** to obtain a new token without requiring user credentials.
+</Info>
+
+### **Refreshing Tokens**
+
+```bash
+curl -X POST "https://api.riyadhparking.com/auth/public/refresh" \
+  -H "Content-Type: application/json" \
+  -d '{ "refreshToken": "your_refresh_token" }'
+```
+
+## 4️⃣ Protect Against API Abuse
+
+* **Rate Limiting:** Limit API requests per user to prevent abuse.
+
+* **Monitor API usage:** Keep logs of failed login attempts and suspicious behavior.
+
+* **Restrict IP Access:** Use allowlists to block unauthorized IPs.
+
+## 5️⃣ Secure User Input
+
+Validate all **incoming requests** to prevent **SQL injection, XSS, and request forgery (CSRF)**.
+
+<Tabs>
+  <Tab title="Safe">
+    ✅ **Sanitize user input before processing:**
+
+    ```javascript
+      const sanitizedInput = input.replace(/\[^a-zA-Z0-9]/g, "");
+    ```
+  </Tab>
+
+  <Tab title="Unsafe">
+    ❌ **Directly process user input without validation:**
+
+    ```javascript
+      const userQuery = `SELECT * FROM users WHERE name = '${input}'`;
+    ```
+  </Tab>
+</Tabs>
+
+## Next Steps
+
+* Learn about [Rate Limiting](./rate-limiting.mdx) to optimize API usage.
+
+* Explore [Best Practices](./best-practices.mdx) for general API security.
+
+* Dive into the [API Reference](../api-reference/introduction.mdx) for more details.
+
+***
+
+🔜 **Next:** [Rate Limiting](./rate-limiting.mdx)

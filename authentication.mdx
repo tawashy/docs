@@ -1,0 +1,50 @@
+---
+title: Authentication
+description: Learn how developers can authenticate and secure API access for Riyadh Parking.
+---
+
+## Overview
+
+The **Riyadh Parking API** requires authentication for all API interactions. As a developer, you must obtain and use access tokens to securely communicate with the system. This ensures that only authorized applications can interact with parking services.
+
+## Authentication Workflow
+
+1. **Obtain API Credentials**: You need a `Client ID` and `Client Secret`, provided by the Riyadh Parking admin team.
+
+2. **Request an Access Token**: Use the credentials to generate an authentication token.
+
+3. **Include the Token in API Requests**: Pass the token in the `Authorization` header of each request.
+
+4. **Refresh Tokens Periodically**: Ensure continued access by handling token expiration.
+
+## Implementation Steps
+
+### 1️⃣ Getting an Access Token
+
+Use the `Client ID` and `Client Secret` to request an access token. Ensure this request is made securely from a backend server.
+
+### 2️⃣ Using the Token
+
+Include the token in every API request as follows:
+
+```
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+### 3️⃣ Handling Token Expiry
+
+Tokens expire after a set duration. Implement a mechanism to refresh them before expiration.
+
+## Best Practices for Developers
+
+* **Never expose credentials**: Store them securely on the backend.
+
+* **Use HTTPS**: Always send API requests over a secure connection.
+
+* **Implement retry logic**: Handle token expiration gracefully to avoid service disruptions.
+
+## Next Steps
+
+Once authenticated, proceed with creating tickets, report violations, update parking occupancy. Check the next section for details.
+
+***
