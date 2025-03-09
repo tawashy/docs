@@ -32,18 +32,6 @@
         ]
       },
       {
-      "tab": "API Reference v2",
-      "groups": [
-        {
-          "group": "Endpoints",
-          "openapi": {
-            "source": "opena-pi.json",
-            "directory": "api-reference"
-          }
-        }
-      ]
-    },
-      {
         "tab": "API Reference",
         "groups": [
           {
