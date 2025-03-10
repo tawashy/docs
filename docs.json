@@ -43,7 +43,7 @@
               "api-reference/parking/update-capacity",
               "api-reference/violations/create",
               "api-reference/tickets/create",
-              "api-reference/tickets/check-active-ticket"
+              "api-reference/tickets/check-active-ticket",
               "api-reference/webhooks/ticket-webhook"
             ]
           }
