@@ -1,0 +1,100 @@
+---
+title: Ticketing Webhook
+description: Learn how Riyadh Parking sends ticket and invoice data to operators in real-time.
+---
+
+import Callout from '@mintlify/components/callout';
+import CodeBlock from '@mintlify/components/codeblock';
+
+# Ticketing Webhook
+
+Riyadh Parking provides **real-time ticketing and invoicing updates** to operators when a ticket is generated via the mobile app or website. This allows operators to **track transactions** and **automate processing** without polling the API.
+
+<Info>
+  To receive ticket and invoice data, operators must **register a valid endpoint** through the **Operator Portal**.
+</Info>
+
+## 1️⃣ Ticket & Invoice Data Structure
+
+Each time a parking transaction occurs, Riyadh Parking sends a **POST request** to the operator's webhook endpoint with the following payload.
+
+### **Invoice Schema**
+
+```json
+{
+  "invoiceTime": "2025-03-09T12:00:00Z",
+  "invoiceNumber": "INV-123456",
+  "vatNumber": "300123456700003",
+  "invoiceTotalAmount": 100.00,
+  "invoiceTax": 15.00,
+  "invoiceAmount": 85.00,
+  "paymentMethod": "MADA",
+  "transactionRef": "TXN-987654"
+}
+```
+
+### **Ticket Schema**
+
+```json
+{
+  "id": "ticket-uuid",
+  "parkingZone": "zone-001",
+  "transactionTime": "2025-03-09T12:05:00Z",
+  "startTime": "2025-03-09T10:00:00Z",
+  "endTime": "2025-03-09T12:00:00Z",
+  "licensePlate": "ABC123",
+  "amount": 85.00,
+  "paymentType": "MADA",
+  "serial": "TICKET-987654",
+  "invoice": {
+    "invoiceTime": "2025-03-09T12:00:00Z",
+    "invoiceNumber": "INV-123456",
+    "vatNumber": "300123456700003",
+    "invoiceTotalAmount": 100.00,
+    "invoiceTax": 15.00,
+    "invoiceAmount": 85.00,
+    "paymentMethod": "MADA",
+    "transactionRef": "TXN-987654"
+  },
+  "ticketType": "STANDARD",
+  "isSaudiPlate": true
+}
+```
+
+## 2️⃣ How to Handle Incoming Requests
+
+* **Expose an HTTPS endpoint** that accepts `POST` requests.
+
+* **Verify the request payload** to ensure data integrity.
+
+* **Acknowledge receipt** by responding with a `200 OK` status.
+
+### **Example Endpoint Implementation (Node.js/Express)**
+
+```javascript
+const express = require("express");
+const app = express();
+
+app.use(express.json());
+
+app.post("/parking/ticket", (req, res) => {
+  console.log("Received Ticket Data:", req.body);
+  res.status(200).send({ message: "Ticket received successfully" });
+});
+
+app.listen(3000, () => console.log("Server running on port 3000"));
+```
+
+## 3️⃣ Expected Responses
+
+Your system must respond to each request with the appropriate HTTP status code.
+
+| Status Code                 | Description                    |
+| --------------------------- | ------------------------------ |
+| `200 OK`                    | Request received successfully. |
+| `400 Bad Request`           | Invalid payload structure.     |
+| `500 Internal Server Error` | Unexpected processing error.   |
+
+<Warning>
+  If your system fails to acknowledge the request, retries will be attempted before marking it as failed.
+</Warning>
