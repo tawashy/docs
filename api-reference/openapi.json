@@ -73,10 +73,103 @@
         "requestBody": { "content": { "application/json": { "schema": { "$ref": "#/components/schemas/PublicTicketRequestModel" } } }, "required": true },
         "responses": { "200": { "description": "Ticket successfully created", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/TicketInitiationResponseModel" } } } }, "400": { "description": "Invalid Data" } }
       }
+    },
+    "/v1/violations/public": {
+      "post": {
+        "tags": ["Violation Controller"],
+        "summary": "Create Violation (v1)",
+        "operationId": "createViolationV1",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/ViolationCreationModelV1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Violation successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateViolationV1SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
+      "ViolationCreationModelV1": {
+        "type": "object",
+        "required": [
+          "zoneId",
+          "plateNumber",
+          "plateType",
+          "violationType",
+          "location",
+          "latitude",
+          "longitude"
+        ],
+        "properties": {
+          "date": { "type": "string", "format": "date-time" },
+          "latitude": { "type": "number", "format": "double" },
+          "longitude": { "type": "number", "format": "double" },
+          "location": { "type": "string" },
+          "plateNumber": { "type": "string" },
+          "plateType": { "type": "string" },
+          "zoneId": { "type": "string", "format": "uuid" },
+          "imagesDescription": { "type": "string" },
+          "violationType": { "type": "string" },
+          "isSaudi": { "type": "boolean" },
+          "metadata": { "type": "object" },
+          "fullName": { "type": "string" },
+          "identityNumber": { "type": "string" },
+          "mobileNumber": { "type": "string" },
+          "images": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "binary"
+            }
+          }
+        }
+      },
+      "CreateViolationV1SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "integer", "example": 200 },
+          "message": { "type": "string", "example": "OK" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "violation_reference_id": {
+                "type": "string",
+                "example": "V-20250409-ae732f"
+              },
+              "status": {
+                "type": "string",
+                "example": "PENDING"
+              },
+              "metadata": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "example": "12345"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "ViolationCreationModel": {
         "type": "object",
         "required": [

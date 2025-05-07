@@ -36,12 +36,21 @@
             ]
           },
           {
+            "group": "Integration Guide",
+            "pages": [
+             "/integration-guide/towing",
+             "/integration-guide/violation",
+             "/integration-guide/verifying-webhooks"
+            ]
+          },
+          {
             "group": "Endpoints",
             "pages": [
               "api-reference/authentication/token",
               "api-reference/authentication/refresh",
               "api-reference/parking/update-capacity",
               "api-reference/violations/create",
+              "api-reference/violations/create-V1",
               "api-reference/tickets/create",
               "api-reference/tickets/check-active-ticket",
               "api-reference/webhooks/ticket-webhook"
