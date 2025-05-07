@@ -74,7 +74,7 @@
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.riyadhparking.com"
+      "href": "https://operator.riyadhparking.dev"
     }
   },
   "footer": {
