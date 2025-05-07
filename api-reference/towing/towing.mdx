@@ -1,0 +1,413 @@
+1- Receive Towing Request
+----------
+
+RP will call this webhook to notify the operator when a vehicle needs to be towed.
+
+`POST operator-base-url/tow-request`
+
+----------------
+
+Request
+
+```
+{
+
+"violation_reference_id": "V-20250413-96b6bd",
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+"metadata": {
+
+   "id": "123456"
+
+    }
+
+}
+```
+
+----------------
+
+2- Update Tow Status - Started
+----------
+
+Operator will update RP with towing status.
+
+`PATCH /v1/tow/public/towing-status/started`
+
+----------------
+
+Request
+
+```
+{
+
+"violation_reference_id": "V-20250413-96b6bd",
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+"plate_number": "1111AAA",
+
+"towed_location": "123 Main St, Riyadh, Saudi Arabia",
+
+"latitude": 24.7136,
+
+"longitude": 46.6753,
+
+"status_update_time": "2025-04-13T12:00:00Z"
+
+}
+```
+
+----------------
+Response
+
+```
+{
+
+"code": 200,
+
+"message": "Towing information updated successfully",
+
+"data": {
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+"metadata": {
+
+   "id": "123456"
+
+        }
+    }
+}
+```
+
+----------------
+
+3- Update Tow Status - Detained
+----------
+
+Operator will update RP with towing status.
+
+`PATCH /v1/tow/public/towing-status/detained`
+
+----------------
+
+Request
+
+```
+{
+
+"violation_reference_id": "V-20250413-96b6bd",
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+}
+```
+
+----------------
+Response
+
+```
+{
+
+"code": 200,
+
+"message": "Towing information updated successfully",
+
+"data": {
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+"metadata": {
+
+   "id": "123456"
+
+        }
+    }
+}
+```
+
+----------------
+
+4- Update Tow Status - Canceled 
+----------
+
+Operator will update RP with towing status.
+
+`PATCH /v1/tow/public/towing-status/canceled`
+
+----------------
+
+Request
+
+```
+{
+
+"violation_reference_id": "V-20250413-96b6bd",
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+}
+```
+
+----------------
+Response
+
+```
+{
+
+"code": 200,
+
+"message": "Towing information updated successfully",
+
+"data": {
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+"metadata": {
+
+   "id": "123456"
+
+        }
+    }
+}
+```
+
+----------------
+
+5- Create Invoice
+----------
+
+Operator will call RP to generate tow invoice.
+
+`POST /v1/tow/public/invoice`
+
+----------------
+
+Request
+
+```
+{
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+"vehicle_type" : "HEAVY",
+
+"delay_in_days" : 1
+
+}
+```
+
+----------------
+Response
+
+```
+{
+
+"code": 200,
+
+"message": "Invoices created successfully",
+
+"data": {
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+"towing_invoice" : {
+
+   "total_amount" : 0.0,
+
+   "paid_amount" : 0.0,
+
+   "tax" : 0.0
+
+},
+
+"delay_invoice" : {
+
+   "total_amount" : 0.0,
+
+   "paid_amount" : 0.0,
+
+   "tax" : 0.0
+
+},
+
+"metadata": {
+
+   "id": "123456"
+
+        }
+    }
+}
+```
+
+----------------
+
+6- Update Towing Invoice Payment Status
+----------
+
+The operator will call RP to update the payment status of a towing invoice.
+
+Endpoint:
+
+`PATCH /v1/tow/public/invoice/payment-status`
+
+----------------
+
+Request
+
+```
+{
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+"payment_status" : "PAID"
+
+}
+```
+
+----------------
+Response
+
+```
+{
+
+"code": 200,
+
+"message": "Towing information updated successfully",
+
+"data": {
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+"metadata": {
+
+   "id": "123456"
+
+        }
+    }
+}
+```
+
+----------------
+
+7- Update Tow Status - Released
+----------
+
+Operator will update RP with towing status.
+
+`PATCH /v1/tow/public/towing-status/released`
+
+----------------
+
+Request
+
+```
+{
+
+"violation_reference_id": "V-20250413-96b6bd",
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+}
+```
+
+----------------
+Response
+
+```
+{
+
+"code": 200,
+
+"message": "Towing information updated successfully",
+
+"data": {
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+"metadata": {
+
+   "id": "123456"
+
+        }
+    }
+}
+```
+
+
+----------------
+
+8- Send Invoice
+----------
+
+RP will call this webhook to notify the operator with invoices info.
+
+`POST /operator-base-url/tow/invoice`
+
+----------------
+Request
+
+```
+{
+
+"violation_reference_id": "V-20250413-96b6bd",
+
+"towing_reference_id": "TW-20250413-96b6bd",
+
+"towing_invoice" : {
+
+   "invoice_number" : "",
+
+   "vat_number" : "", 
+
+   "total_amount" : 0.0,
+
+   "paid_amount" : 0.0,
+
+   "tax" : 0.0,
+
+   "payment_method" : "VISA"
+
+},
+
+"delay_invoice" : {
+
+   "invoice_number" : "",
+
+   "vat_number" : "", 
+
+   "total_amount" : 0.0,
+
+   "paid_amount" : 0.0,
+
+   "tax" : 0.0,
+
+   "payment_method" : "VISA"
+
+},
+
+"metadata": {
+
+   "id": "123456"
+
+        }
+
+}
+```
+
+----------------
+
+
+ Error Responses
+-----------------
+
+| HTTP Code | Message | Description |
+| --- | --- | --- |
+| 400 | `Missing required field` | A required field in the `update tow status` object is missing |
+| 400 | `Invalid enum value` | Wrong value provided for `payment_status` `vehicle_type` |
+| 404 | `Plate number not found` | No plate number is associated with the given `violation_reference_id` |
+| 404 | `Violation not found` | No violation found matching the given `violation_reference_id` |
+| 401 | `Unauthorized` | Bearer token is missing or expired |
+| 403 | `Access denied` | The user does not have permission to use this endpoint |
+| 500 | `Internal Server Error` | A server-side error occurred |

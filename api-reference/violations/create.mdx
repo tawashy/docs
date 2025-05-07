@@ -1,4 +1,133 @@
+
 ---
-title: 'Create a violation'
-openapi: 'POST /violation/public/create'
+title: Create Violation
+description: API to create a violation entry
 ---
+
+# Create Violation Endpoint
+
+`POST /spsr-api/v1/violations/public`
+
+## Authentication
+
+- **Type:** Bearer Token (JWT) – Operator Token  
+- **Example:**  
+  `Authorization: Bearer xxxxxx`
+
+---
+
+## Request Format
+
+### Headers
+
+| Name          | Value               |
+| ------------- | ------------------- |
+| Authorization | Bearer `xxxxx`      |
+| Content-Type  | multipart/form-data |
+
+---
+
+### Form Data
+
+| Field                | Type           | Description                                   |
+| ---------------------| -------------- | --------------------------------------------- |
+| `date`               | `string`       | timestamp                                     |
+| `latitude`           | `double`       | Latitude of violation                         |
+| `longitude`          | `double`       | Longitude of violation                        |
+| `location`           | `string`       | Violation location text                       |
+| `plateNumber`        | `string`       | Vehicle plate number                          |
+| `plateType`          | `string` enum  | Type of vehicle plate                         |
+| `zoneId`             | `string`       | Zone UUID                                     |
+| `imagesDescription`  | `string`       | Description of violation images               |
+| `violationType`      | `string` enum  | Type of violation                             |
+| `isSaudi`            | `boolean`      | Whether the plate is Saudi                    |
+| `metadata`           | `json`         | Optional metadata field                       |
+| `fullName`           | `string`       | Reporter full name                            |
+| `identityNumber`     | `string`       | Reporter identity number                      |
+| `mobileNumber`       | `string`       | Reporter mobile number                        |
+| `images`             | `file[]`       | One or more image files (max 10MB each)       |
+
+---
+
+### Sample `curl` Request
+
+```bash
+curl --location 'http://localhost:8082/spsr-api/v1/violations/public' \
+--header 'Authorization: Bearer xxxxxx' \
+--form 'date=2025-04-08T12:00:00Z' \
+--form 'latitude=24.774265' \
+--form 'longitude=46.738586' \
+--form 'location=Riyadh' \
+--form 'plateNumber=2482KXR' \
+--form 'plateType=PRIVATE' \
+--form 'zoneId=8204c677-34b8-4e53-9ac5-97d6c6f000cf' \
+--form 'imagesDescription=Violation on sidewalk' \
+--form 'violationType=NO_TICKET' \
+--form 'isSaudi=true' \
+--form 'metadata.id=12345' \
+--form 'violationReporter.fullName=gyda saleh' \
+--form 'violationReporter.identityNumber=1234567890' \
+--form 'violationReporter.mobileNumber=0538335646' \
+--form 'images=@"/path/to/image.jpg"'
+```
+
+---
+
+## Enum Values
+
+### `plateType`
+
+- PRIVATE  
+- PUBLIC_TRANSPORTATION  
+- PRIVATE_TRANSPORTATION  
+- PUBLIC_MINIBUS  
+- PRIVATE_MINIBUS  
+- TAXI  
+- Heavy_Equipment  
+- EXPORT  
+- DIPLOMATIC  
+- MOTORCYCLE  
+
+### `violationType`
+
+- NO_TICKET  
+- TICKET_ENDED  
+- USER_EXCEED_PARKING_TIME  
+- WRONG_PARKING  
+- RESERVED_PARKING  
+- OBS_CLS_PARKING  
+- EMRG_PARKING  
+- ENT_EXT_PARKING  
+- PROH_PARKING  
+
+---
+
+## Success Response
+
+```json
+{
+  "code": 200,
+  "message": "OK",
+  "data": {
+    "violation_reference_id": "V-20250409-ae732f",
+    "status": "PENDING",
+    "metadata": {
+      "id": "12345"
+    }
+  }
+}
+```
+
+---
+
+## Error Responses
+
+| HTTP Code | Message                    | Description                                                            |
+| --------- | -------------------------- | -----------------------------------------------------------------------|
+| 400       | `Zone not found`           | The provided `zone_id` is invalid or does not exist                    |
+| 400       | `Image size exceeds limit` | Uploaded image(s) exceed the 10MB file size limit                      |
+| 400       | `Missing required field`   | A required field in the `violation` object is missing                  |
+| 400       | `Invalid enum value`       | Wrong value provided for `plate_type` or `violation_type`              |
+| 401       | `Unauthorized`             | Bearer token is missing or expired                                     |
+| 403       | `Access denied`            | The user does not have permission to use this endpoint                 |
+| 500       | `Internal Server Error`    | A server-side error occurred                                           |

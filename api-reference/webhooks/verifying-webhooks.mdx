@@ -1,0 +1,107 @@
+
+---
+title: Verifying Webhook Signatures
+description: How to manually verify webhook signatures sent by Riyadh Parking using Svix
+---
+
+# Verifying Webhook Signatures (For Operators)
+
+At Riyadh Parking, we use **Svix** to send webhooks. As our operator, it's important that you verify incoming webhook requests to ensure they are legitimate. Below is the official guide for **manual verification** of signatures.
+
+## Headers Sent with Webhooks
+
+Each webhook call includes the following headers:
+
+| Header            | Description                                                                 |
+|-------------------|-----------------------------------------------------------------------------|
+| `svix-id`         | Unique message ID. Stays the same if the webhook is resent.                 |
+| `svix-timestamp`  | UNIX timestamp (in seconds).                                                |
+| `svix-signature`  | Base64 encoded list of HMAC signatures. Multiple versions may be included.  |
+
+
+---
+
+## How to Construct the Signed Content
+
+To construct the signed content, concatenate the message components using a `.` (dot):
+
+```js
+const signedContent = `${svix_id}.${svix_timestamp}.${body}`;
+```
+
+- `svix_id`: from the `svix-id` header
+- `svix_timestamp`: from the `svix-timestamp` header
+- `body`: the raw body of the request
+
+> ⚠️ Do **not** modify the request body before verification. Even small changes will invalidate the signature.
+
+---
+
+## How to Compute the Expected Signature
+
+Svix uses HMAC with SHA-256. You need to:
+
+1. Take your signing secret (remove the `whsec_` prefix).
+2. Decode the base64 portion.
+3. HMAC the `signedContent` using the decoded secret.
+
+### Node.js Example
+
+```js
+const crypto = require('crypto');
+
+const signedContent = `${svix_id}.${svix_timestamp}.${body}`;
+const secret = "whsec_5WbX5kEWLlfzsGNjH64I8lOOqUB6e8FH";
+
+// Decode the secret (strip "whsec_" prefix)
+const secretBytes = Buffer.from(secret.split('_')[1], "base64");
+
+const signature = crypto
+  .createHmac('sha256', secretBytes)
+  .update(signedContent)
+  .digest('base64');
+
+console.log(signature);
+```
+
+---
+
+## Matching the Signature
+
+The `svix-signature` header contains a space-delimited list of versioned signatures, e.g.:
+
+```
+v1,g0hM9SsE+OTPJTGt/tmIKtSyZlE3uFJELVlNIOLJ1OE= v2,abcdef==
+```
+
+To validate:
+
+- Remove the version prefix (`v1,`, `v2,` etc.).
+- Compare the base64-encoded result with your computed signature.
+- Use **constant-time comparison** to avoid timing attacks.
+
+---
+
+## Verifying the Timestamp
+
+Always compare the `svix-timestamp` against your server’s current time.
+
+- Reject the webhook if the timestamp is outside an acceptable window (e.g., ±5 minutes).
+- This prevents replay/timestamp attacks.
+
+---
+
+## Example Signature
+
+```text
+secret     = 'whsec_plJ3nmyCDGBKInavdOK15jsl'
+payload    = '{"event_type":"ping","data":{"success":true}}'
+msg_id     = 'msg_loFOjxBNrRLzqYUf'
+timestamp  = '1731705121'
+
+// Expected signature
+signature  = 'v1,rAvfW3dJ/X/qxhsaXPOyyCGmRKsaKWcsNccKXlIktD0='
+```
+
+> If the timestamp is outdated, verification will fail — this is expected.
+
