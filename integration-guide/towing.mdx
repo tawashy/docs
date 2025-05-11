@@ -3,7 +3,8 @@
 
 RP will call this webhook to notify the operator when a vehicle needs to be towed.
 
-Once the violation is successfully completed, a towing request will be sent to the operator's webhook.
+Following the operator’s submission of a violation and completion of the full handling process, the Riyadh Parking System assesses the violation type. 
+If towing is required, the system automatically issues a towing request and sends it to the operator’s webhook endpoint.
 
 `POST operator-base-url/tow-request`
 
