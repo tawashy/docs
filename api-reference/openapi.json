@@ -132,6 +132,9 @@
           "fullName": { "type": "string" },
           "identityNumber": { "type": "string" },
           "mobileNumber": { "type": "string" },
+          "supervisorFullName": { "type": "string" },
+          "supervisorIdentityNumber": { "type": "string" },
+          "supervisorMobileNumber": { "type": "string" },
           "images": {
             "type": "array",
             "items": {

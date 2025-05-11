@@ -24,23 +24,26 @@ Create Violation Endpoint
 
 ### Form Data
 
-| Field                | Type           | Description                                   |
-| ---------------------| -------------- | --------------------------------------------- |
-| `date`               | `string`       | timestamp                                     |
-| `latitude`           | `double`       | Latitude of violation                         |
-| `longitude`          | `double`       | Longitude of violation                        |
-| `location`           | `string`       | Violation location text                       |
-| `plateNumber`        | `string`       | Vehicle plate number                          |
-| `plateType`          | `string` enum  | Type of vehicle plate                         |
-| `zoneId`             | `string`       | Zone UUID                                     |
-| `imagesDescription`  | `string`       | Description of violation images               |
-| `violationType`      | `string` enum  | Type of violation                             |
-| `isSaudi`            | `boolean`      | Whether the plate is Saudi                    |
-| `metadata`           | `json`         | Optional metadata field                       |
-| `fullName`           | `string`       | Reporter full name                            |
-| `identityNumber`     | `string`       | Reporter identity number                      |
-| `mobileNumber`       | `string`       | Reporter mobile number                        |
-| `images`             | `file[]`       | One or more image files (max 10MB total)      |
+| Field                          | Type           | Description                                   |
+| ---------------------          | -------------- | --------------------------------------------- |
+| `date`                         | `string`       | timestamp                                     |
+| `latitude`                     | `double`       | Latitude of violation                         |
+| `longitude`                    | `double`       | Longitude of violation                        |
+| `location`                     | `string`       | Violation location text                       |
+| `plateNumber`                  | `string`       | Vehicle plate number                          |
+| `plateType`                    | `string` enum  | Type of vehicle plate                         |
+| `zoneId`                       | `string`       | Zone UUID                                     |
+| `imagesDescription`            | `string`       | Description of violation images               |
+| `violationType`                | `string` enum  | Type of violation                             |
+| `isSaudi`                      | `boolean`      | Whether the plate is Saudi                    |
+| `metadata`                     | `json`         | Optional metadata field                       |
+| `fullName`                     | `string`       | Reporter full name                            |
+| `identityNumber`               | `string`       | Reporter identity number                      |
+| `mobileNumber`                 | `string`       | Reporter mobile number                        |
+| `supervisorFullName`           | `string`       | Reporter full name                            |
+| `supervisorIdentityNumber`     | `string`       | Reporter identity number                      |
+| `supervisorMobileNumber`       | `string`       | Reporter mobile number                        |
+| `images`                       | `file[]`       | One or more image files (max 10MB total)      |
 
 ---
 
